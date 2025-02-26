@@ -26,7 +26,9 @@ def login():
         pass
 
 # Basic log out system
-@app.route("/logout")
+# Use a form / button that posts to here then done easy peasy
+# TODO: Add logout button on dash page
+@app.route("/logout", methods=["POST"])
 def logout():
     session.clear()
     return redirect(url_for('login'))
