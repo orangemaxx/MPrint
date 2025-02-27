@@ -7,7 +7,7 @@ from sqldb import connectDB, testSettings
 # Settings is the global variables for this project. Anything that needs to be reused should be set in here
 import settings
 
-settings.Database = connectDB()
+Database = settings.Database = connectDB()
 print(settings.Database)
 
 
