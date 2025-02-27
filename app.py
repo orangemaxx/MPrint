@@ -1,9 +1,8 @@
 from flask import Flask, render_template, request, redirect, session, url_for
-from login import LoginAuth
 import mysql.connector
 from dotenv import load_dotenv
 from os import getenv
-from sqldb import connectDB, testSettings
+from sqldb import connectDB, LoginUser
 # Settings is the global variables for this project. Anything that needs to be reused should be set in here
 import settings
 
@@ -31,9 +30,12 @@ def login():
         # Base login Page
         # returns login html
         # TODO: Change to login.html or something not clapped
-        return render_template("index.html")
+        return render_template("login.html")
     else:
-        pass
+        username = request.form.get("username")
+        password = request.form.get("password")
+        LoginUser(username, password, session)
+        return "1"
 
 # Basic log out system
 # Use a form / button that posts to here then done easy peasy
