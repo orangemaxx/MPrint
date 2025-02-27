@@ -2,14 +2,19 @@ from flask import Flask, render_template, request, redirect, session, url_for
 from login import LoginAuth
 import mysql.connector
 from dotenv import load_dotenv
+from os import getenv
 
-load_dotenv
+load_dotenv()
 
 app = Flask(__name__)
 
 
 database = mysql.connector.connect(
+    host=getenv("DATABASE"),
+    user=getenv("DATABASE_USERNAME"),
+    password=getenv("DATABASE_PASSWORD")
 )
+print(database)
 
 # TODO: Make a config file. Ts dumb as hell.
 app.secret_key = ["tjehjeflkjdjfkljIOjoifjdijfkfjKLJDKSJFUIOefhuei"]
