@@ -1,7 +1,15 @@
 from flask import Flask, render_template, request, redirect, session, url_for
 from login import LoginAuth
+import mysql.connector
+from dotenv import load_dotenv
+
+load_dotenv
 
 app = Flask(__name__)
+
+
+database = mysql.connector.connect(
+)
 
 # TODO: Make a config file. Ts dumb as hell.
 app.secret_key = ["tjehjeflkjdjfkljIOjoifjdijfkfjKLJDKSJFUIOefhuei"]
