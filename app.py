@@ -4,6 +4,7 @@ import mysql.connector
 from dotenv import load_dotenv
 from os import getenv
 from sqldb import connectDB, testSettings
+# Settings is the global variables for this project. Anything that needs to be reused should be set in here
 import settings
 
 settings.Database = connectDB()
@@ -11,8 +12,7 @@ print(settings.Database)
 
 
 app = Flask(__name__)
-# TODO: Make a config file. Ts dumb as hell.
-app.secret_key = ["tjehjeflkjdjfkljIOjoifjdijfkfjKLJDKSJFUIOefhuei"]
+app.secret_key = getenv("SESSION_SECRET")
 
 
 
