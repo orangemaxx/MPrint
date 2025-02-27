@@ -6,8 +6,10 @@ from sqldb import connectDB, LoginUser
 # Settings is the global variables for this project. Anything that needs to be reused should be set in here
 import settings
 
+
 Database = settings.Database = connectDB()
-print(settings.Database)
+
+
 
 
 app = Flask(__name__)

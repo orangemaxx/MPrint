@@ -6,19 +6,27 @@ import settings
 from sqlalchemy import text
 from string import ascii_letters
 from random import choice
+import sys
 
 loginIdLen = 30
 
 def connectDB():
-    Database = mysql.connector.connect(
-    host=getenv("DATABASE_HOST"),
-    port=getenv("DATABASE_PORT"),
-    user=getenv("DATABASE_USERNAME"),
-    password=getenv("DATABASE_PASSWORD"),
-    database=getenv("DATABASE")
-    )
+    try:
+        Database = mysql.connector.connect(
+        host=getenv("DATABASE_HOST"),
+        port=getenv("DATABASE_PORT"),
+        user=getenv("DATABASE_USERNAME"),
+        password=getenv("DATABASE_PASSWORD"),
+        database=getenv("DATABASE")
+        )
+        print(Database)
+        return Database
+    except:
+        print("Couldn't Connect to the Database")
+        sys.exit()
 
-    return Database
+
+    
 
 def LoginUser(user, passw, session):
     Database = settings.Database
@@ -30,13 +38,17 @@ def LoginUser(user, passw, session):
     result = cursor.fetchone()[0] # Fetch the result
     print(result)
     if passw == result:
-        
+        loginid = LoginIdGen(Database)
         query = "INSERT INTO userdata (sessionid) VALUES (%s) WHERE username = %s"
-        cursor.execute(query, (LoginIdGen(Database), user))
+        cursor.execute(query, (loginid, user,))
         Database.commit()
 
 def LoginIdGen(Database):
     loginId = ""
+    # Loop to get login id
+    """ Login Id Generates an Id to use for verifying login. Everytime the page is refreshed the ID is checked against
+    the database. If they do not match the user is logged out and the session is cleared. LoginID is checked against UserID which gives
+    the user data to the site. This id must be generated everytime the user is logged in."""
     while True:
         for i in range(loginIdLen):
             loginId += choice(ascii_letters)
