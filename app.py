@@ -3,32 +3,18 @@ from login import LoginAuth
 import mysql.connector
 from dotenv import load_dotenv
 from os import getenv
+from sqldb import connectDB, testSettings
+import settings
 
-load_dotenv()
+settings.Database = connectDB()
+print(settings.Database)
+
 
 app = Flask(__name__)
-
-
-database = mysql.connector.connect(
-    host=getenv("DATABASE"),
-    user=getenv("DATABASE_USERNAME"),
-    password=getenv("DATABASE_PASSWORD")
-)
-print(database)
-
-
-# TODO: This is for testing purposes only. REMOVE THIS LATER!!!!
-cursor = database.cursor()
-
-cursor.execute("CREATE DATABASE maxsawesomedatabase")
-
-cursor.execute("SHOW DATABASES")
-
-for x in cursor:
-    print(x)
-
 # TODO: Make a config file. Ts dumb as hell.
 app.secret_key = ["tjehjeflkjdjfkljIOjoifjdijfkfjKLJDKSJFUIOefhuei"]
+
+
 
 @app.route("/", methods=["POST", "GET"])
 def index():
