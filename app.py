@@ -16,6 +16,17 @@ database = mysql.connector.connect(
 )
 print(database)
 
+
+# TODO: This is for testing purposes only. REMOVE THIS LATER!!!!
+cursor = database.cursor()
+
+cursor.execute("CREATE DATABASE maxsawesomedatabase")
+
+cursor.execute("SHOW DATABASES")
+
+for x in cursor:
+    print(x)
+
 # TODO: Make a config file. Ts dumb as hell.
 app.secret_key = ["tjehjeflkjdjfkljIOjoifjdijfkfjKLJDKSJFUIOefhuei"]
 
