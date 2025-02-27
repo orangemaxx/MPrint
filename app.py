@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, session, url_for
 import mysql.connector
 from dotenv import load_dotenv
 from os import getenv
-from sqldb import connectDB, LoginUser
+from sqldb import connectDB, LoginUser, Logout
 # Settings is the global variables for this project. Anything that needs to be reused should be set in here
 import settings
 
@@ -45,8 +45,12 @@ def login():
 # TODO: Add logout button on dash page
 @app.route("/logout", methods=["POST"])
 def logout():
-    session.clear()
-    return redirect(url_for('login'))
+    if session.get["logged_in"]:
+        Logout()
+        session.clear()
+        return redirect(url_for('login'))
+    else:
+        return redirect(url_for('login'))
 
 @app.route("/dashboard", methods=["GET"])
 def dash():

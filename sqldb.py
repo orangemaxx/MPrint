@@ -85,3 +85,7 @@ def getUserId(user, Database):
     mycursor.execute(query, (user,))
     result = mycursor.fetchone()[0]
     return result
+
+
+def Logout():
+    session.get["use"]
