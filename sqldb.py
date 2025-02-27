@@ -7,6 +7,7 @@ from sqlalchemy import text
 from string import ascii_letters
 from random import choice
 import sys
+from flask import session
 
 loginIdLen = 30
 
@@ -28,7 +29,7 @@ def connectDB():
 
     
 
-def LoginUser(user, passw, session):
+def LoginUser(user, passw):
     Database = settings.Database
     query = "SELECT password FROM userdata WHERE username = %s"
     
@@ -36,12 +37,22 @@ def LoginUser(user, passw, session):
     cursor = Database.cursor()
     cursor.execute(query, (user,))
     result = cursor.fetchone()[0] # Fetch the result
-    print(result)
     if passw == result:
+        # Generate LoginId
         loginid = LoginIdGen(Database)
-        query = "INSERT INTO userdata (sessionid) VALUES (%s) WHERE username = %s"
-        cursor.execute(query, (loginid, user,))
+        # Set the update query for later use
+        query = "UPDATE userdata SET sessionid = %s WHERE username = %s"
+        # Fill in the values
+        values = (loginid, user)
+        # Execute the command
+        cursor.execute(query, values)
+        # Commit to DB
         Database.commit()
+        session["loginId"] = loginid
+        session["userId"] = getUserId(user, Database)
+        session["logged_in"] = True
+        return True
+    else: return False
 
 def LoginIdGen(Database):
     loginId = ""
@@ -50,10 +61,15 @@ def LoginIdGen(Database):
     the database. If they do not match the user is logged out and the session is cleared. LoginID is checked against UserID which gives
     the user data to the site. This id must be generated everytime the user is logged in."""
     while True:
+        # Generate the Login id
         for i in range(loginIdLen):
             loginId += choice(ascii_letters)
+        # Check Unique
+        cursor = Database.cursor()
         query = "SELECT sessionid FROM userdata"
-        for x in Database.cursor().execute(query).fetchall():
+        cursor.execute(query)
+        result = cursor.fetchall()
+        for x in result:
             if x == loginId:
                 exists = True
                 break
@@ -62,3 +78,10 @@ def LoginIdGen(Database):
         if not exists:
             break     
     return loginId
+
+def getUserId(user, Database):
+    query = "SELECT userid FROM userdata WHERE username = %s"
+    mycursor = Database.cursor()
+    mycursor.execute(query, (user,))
+    result = mycursor.fetchone()[0]
+    return result

@@ -6,7 +6,7 @@ from sqldb import connectDB, LoginUser
 # Settings is the global variables for this project. Anything that needs to be reused should be set in here
 import settings
 
-
+# Connect to The Mysql Database
 Database = settings.Database = connectDB()
 
 
@@ -32,12 +32,13 @@ def login():
         # Base login Page
         # returns login html
         # TODO: Change to login.html or something not clapped
-        return render_template("login.html")
+        return render_template("login.html", error=False)
     else:
         username = request.form.get("username")
         password = request.form.get("password")
-        LoginUser(username, password, session)
-        return "1"
+        result = LoginUser(username, password)
+        if result: return redirect(url_for('dash'))
+        else: render_template("login.html", error=True)
 
 # Basic log out system
 # Use a form / button that posts to here then done easy peasy
@@ -49,6 +50,6 @@ def logout():
 
 @app.route("/dashboard", methods=["GET"])
 def dash():
-    return("Hello")
+    return session.get("userid")
 
 app.run(debug=True)
