@@ -86,12 +86,15 @@ def Logout():
 
 
 def checkLogin(Database):
-    userid = session.get("userId")
-    loginid = session.get("loginId")
-    query = "SELECT sessionid FROM userdata WHERE userid = %s"
-    cursor = Database.cursor()
-    cursor.execute(query, (userid,))
-    result = cursor.fetchone()[0]
-    if result == loginid:
-        return True
-    else: return False
+    try:
+        userid = session.get("userId")
+        loginid = session.get("loginId")
+        query = "SELECT sessionid FROM userdata WHERE userid = %s"
+        cursor = Database.cursor()
+        cursor.execute(query, (userid,))
+        result = cursor.fetchone()[0]
+        if result == loginid:
+            return True
+        else: return False
+    except:
+        return False
