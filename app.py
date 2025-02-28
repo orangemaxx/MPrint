@@ -13,7 +13,19 @@ import settings
 # Connect to The Mysql Database
 Database = settings.Database = connectDB()
 
+# TODO: Tomorow i would quite like to sort out the shitty organisation of ts project.
+# The number of files is gradually increasing with every little bit that i add and so i would really really like to sort it out soonish
+# This will make it hopefully easier to read so if i take a break i don't kms on return (previous instance: maxbox)
 
+# TODO: Would be really super great to also document the database.
+# Not much going on there rn but it is going to be absolutely atrocious pretty soon and i would like to make some rules that i can follow for editing the db.
+# Hopefully this will also make it easier for other users
+
+# TODO: also ideally gonna dick around with encryption tmr. would be nice to encrypt the passwords before shipping them off to the server.
+# Just in case :)
+
+# 28/02/2025
+# - Max
 
 
 app = Flask(__name__)
