@@ -1,3 +1,7 @@
+""" MPrint - Written by Max Hewin
+Follow me on letterboxd! https://letterboxd.com/orangemax
+"""
+
 from flask import Flask, render_template, request, redirect, session, url_for
 import mysql.connector
 from dotenv import load_dotenv
@@ -56,6 +60,8 @@ def logout():
 
 @app.route("/dashboard", methods=["GET"])
 def dash():
+    # Okay i dont really know where to go from here tbh at this point we gonna try work out how to make the dashboard but i hate html so i would rather go do smth else
     return str(session.get('userId'))
 
-app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)

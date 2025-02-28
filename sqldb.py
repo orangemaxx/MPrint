@@ -41,6 +41,7 @@ def LoginUser(user, passw):
         # Generate LoginId
         loginid = LoginIdGen(Database)
         # Set the update query for later use
+        # Special thanks to 
         query = "UPDATE userdata SET sessionid = %s WHERE username = %s"
         # Fill in the values
         values = (loginid, user)
