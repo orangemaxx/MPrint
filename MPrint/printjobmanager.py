@@ -11,8 +11,7 @@ from dotenv import load_dotenv
 from os import getenv
 load_dotenv()
 
-jobidlen = 45
-Database = settings.Database
+jobidlen = 30
 
 def createPrintJob(filename, color, pages, copies):
     # FIXME: AttributeError: 'NoneType' object has no attribute 'cursor'
@@ -23,15 +22,15 @@ def createPrintJob(filename, color, pages, copies):
 
     # TODO: Hoping clyde can debug this
     Database = settings.Database
-    if not checkLogin(Database):
-        return False
-    print(Database) # TODO: Testing purposes. Get rid of this later
-    # Set the cursor for query
-    mycursor = Database.cursor() # <- this is where the error keeps appearing. Please note there is error prevention in place. If we can't connect to the database the app will not run.
+    # if not checkLogin(Database):
+    #     return False
+    print(type(Database)) # TODO: Testing purposes. Get rid of this later
     # Create the job id
-    jobId = createJobId()
+    jobId = createJobId(Database)
     # Get the userid
     userid = session.get("userId")
+    # Set the cursor for query
+    mycursor = Database.cursor() # <- this is where the error keeps appearing. Please note there is error prevention in place. If we can't connect to the database the app will not run.
     # Set the query for mysql
     query = "INSERT INTO printjobs (jobid, userid, jobfilename, jobscolour, pages, copies) VALUES (%s, %s, %s, %s, %s, %s)"
     # Set the variables
@@ -42,24 +41,24 @@ def createPrintJob(filename, color, pages, copies):
     return True # return true if succesful
 
 
-def createJobId():
+def createJobId(Database):
+    exists = None
     while True:
         jobId = ""
         # Randomly create jobid
-        for x in range(jobidlen):
+        for i in range(jobidlen):
             jobId += choice(ascii_letters)
         # Check against database
         cursor = Database.cursor()
         query = "SELECT jobid FROM printjobs"
-        result = cursor.execute(query).fetchall()
+        cursor.execute(query)
+        result = cursor.fetchall()
         for x in result:
             if x == jobId:
                 exists = True
                 break
             else:
                 exists = False
-        if not exists:
-            break
-        else: continue
+        if not exists: break
     return jobId
 

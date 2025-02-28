@@ -13,7 +13,7 @@ loginIdLen = 30
 
 def connectDB():
     try:
-        Database = settings.Database = mysql.connector.connect(
+        Database = mysql.connector.connect(
         host=getenv("DATABASE_HOST"),
         port=getenv("DATABASE_PORT"),
         user=getenv("DATABASE_USERNAME"),
