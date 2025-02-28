@@ -14,17 +14,13 @@ load_dotenv()
 jobidlen = 30
 
 def createPrintJob(filename, color, pages, copies):
-    # FIXME: AttributeError: 'NoneType' object has no attribute 'cursor'
-    # https://paste.mozilla.org/60K3T2kj
 
     # TODO: ALMOST FORGOT TO ADD JOB EXPIRRY DO THAT SOON!!! Gotta be able to delete the files because we are not doing allat.
     # TODO: ALSO PLEASE NOTE SO FAR TS DOES NOT SAVE THE FILE. ONLY DATABASE STUFF SO FAR. UNDECIDED IF I WANT TO SAVE THE FILE HERE OR SOMEWHERE ELSE. MIGHT BE EASIER TO HAVE IT ALL CENTRALISED
 
-    # TODO: Hoping clyde can debug this
     Database = settings.Database
-    # if not checkLogin(Database):
-    #     return False
-    print(type(Database)) # TODO: Testing purposes. Get rid of this later
+    if not checkLogin(Database):
+        return False
     # Create the job id
     jobId = createJobId(Database)
     # Get the userid
