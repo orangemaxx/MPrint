@@ -10,9 +10,10 @@ from MPrint.sqldb import connectDB
 from MPrint.loginmanager import LoginUser, checkLogin, Logout
 # Settings is the global variables for this project. Anything that needs to be reused should be set in here
 import MPrint.settings as settings
+import MPrint.printjobmanager as printjobmanager
 
 # Connect to The Mysql Database
-Database = settings.Database = connectDB()
+Database = connectDB()
 
 # TODO: Tomorow i would quite like to sort out the shitty organisation of ts project.
 # The number of files is gradually increasing with every little bit that i add and so i would really really like to sort it out soonish
@@ -75,8 +76,12 @@ def logout():
 def dash():
     if not checkLogin(Database):
         return redirect(url_for('login'))
+    # FIXME: okay so in an ideal world this should return true because ofc its gone thru to the database. but it aint and idk why. if anyone can fix this i would be very greatful
+    print(printjobmanager.createPrintJob("yadayada", True, 1, 1))
     # Okay i dont really know where to go from here tbh at this point we gonna try work out how to make the dashboard but i hate html so i would rather go do smth else
     return str(session.get('userId'))
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
