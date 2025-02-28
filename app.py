@@ -47,7 +47,7 @@ def login():
 # TODO: Add logout button on dash page
 @app.route("/logout", methods=["POST", "GET"])
 def logout():
-    if session.get["logged_in"]:
+    if session.get("logged_in"):
         Logout()
         session.clear()
         return redirect(url_for('login'))

@@ -90,7 +90,24 @@ def getUserId(user, Database):
 
 def Logout():
     userid = session.get("userId")
-    query = "UPDATE userdata SET sessionid null WHERE userid = %s"
+    loginid = session.get("loginId")
     Database = settings.Database
+    if checkLogin(Database):
+        query = "UPDATE userdata SET sessionid = NULL WHERE userid = %s"
+        cursor = Database.cursor()
+        cursor.execute(query, (userid,))
+        Database.commit()
+        return True
+    else: return False
+
+
+def checkLogin(Database):
+    userid = session.get("userId")
+    loginid = session.get("loginId")
+    query = "SELECT sessionid FROM userdata WHERE userid = %s"
     cursor = Database.cursor()
     cursor.execute(query, (userid,))
+    result = cursor.fetchone()[0]
+    if result == loginid:
+        return True
+    else: return False
