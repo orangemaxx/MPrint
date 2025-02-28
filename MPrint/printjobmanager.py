@@ -15,17 +15,19 @@ jobidlen = 45
 Database = settings.Database
 
 def createPrintJob(filename, color, pages, copies):
-    
+    # FIXME: AttributeError: 'NoneType' object has no attribute 'cursor'
+    # https://paste.mozilla.org/60K3T2kj
+    Database = settings.Database
     if not checkLogin(Database):
         return False
+    print(Database)
+    mycursor = Database.cursor()
     jobId = createJobId()
     userid = session.get("userId")
-
     query = "INSERT INTO printjobs (jobid, userid, jobfilename, jobscolour, pages, copies) VALUES (%s, %s, %s, %s, %s, %s)"
     val = (jobId, userid, filename, color, pages, copies)
-    cursor = Database.cursor()
     print("yeah")
-    cursor.execute(query, val)
+    mycursor.execute(query, val)
     Database.commit()
     return True
 

@@ -2,6 +2,8 @@
 Follow me on letterboxd! https://letterboxd.com/orangemax
 """
 
+
+
 from flask import Flask, render_template, request, redirect, session, url_for
 import mysql.connector
 from dotenv import load_dotenv
@@ -13,7 +15,7 @@ import MPrint.settings as settings
 import MPrint.printjobmanager as printjobmanager
 
 # Connect to The Mysql Database
-Database = connectDB()
+Database = settings.Database = connectDB()
 
 # TODO: Tomorow i would quite like to sort out the shitty organisation of ts project.
 # The number of files is gradually increasing with every little bit that i add and so i would really really like to sort it out soonish
