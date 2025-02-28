@@ -44,6 +44,7 @@ def LoginIdGen(Database):
     the database. If they do not match the user is logged out and the session is cleared. LoginID is checked against UserID which gives
     the user data to the site. This id must be generated everytime the user is logged in."""
     while True:
+        exists = None
         loginId = ""
         # Generate the Login id
         for i in range(loginIdLen):
