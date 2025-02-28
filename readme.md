@@ -10,3 +10,8 @@ TODO:
 - Actual printer connection (Done on external repo)
 - Fancy up login page
 - un-chopped the database
+
+
+## Special Thanks:
+- Clyde (Help with database)
+- Alex hill
