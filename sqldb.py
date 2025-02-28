@@ -56,12 +56,12 @@ def LoginUser(user, passw):
     else: return False
 
 def LoginIdGen(Database):
-    loginId = ""
     # Loop to get login id
     """ Login Id Generates an Id to use for verifying login. Everytime the page is refreshed the ID is checked against
     the database. If they do not match the user is logged out and the session is cleared. LoginID is checked against UserID which gives
     the user data to the site. This id must be generated everytime the user is logged in."""
     while True:
+        loginId = ""
         # Generate the Login id
         for i in range(loginIdLen):
             loginId += choice(ascii_letters)
