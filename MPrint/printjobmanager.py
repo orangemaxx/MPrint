@@ -1,10 +1,10 @@
 # Used for managing adding and retriving print jobs
-import settings
+import MPrint.settings as settings
 from string import ascii_letters
 from flask import session
 from random import choice
 
-import sqldb
+import MPrint.sqldb as sqldb
 import mysql.connector
 from dotenv import load_dotenv
 from os import getenv

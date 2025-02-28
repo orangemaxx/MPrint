@@ -6,9 +6,10 @@ from flask import Flask, render_template, request, redirect, session, url_for
 import mysql.connector
 from dotenv import load_dotenv
 from os import getenv
-from sqldb import connectDB, LoginUser, Logout
+from MPrint.sqldb import connectDB
+from MPrint.loginmanager import LoginUser, checkLogin, Logout
 # Settings is the global variables for this project. Anything that needs to be reused should be set in here
-import settings
+import MPrint.settings as settings
 
 # Connect to The Mysql Database
 Database = settings.Database = connectDB()
@@ -72,6 +73,8 @@ def logout():
 
 @app.route("/dashboard", methods=["GET"])
 def dash():
+    if not checkLogin(Database):
+        return redirect(url_for('login'))
     # Okay i dont really know where to go from here tbh at this point we gonna try work out how to make the dashboard but i hate html so i would rather go do smth else
     return str(session.get('userId'))
 
