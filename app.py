@@ -29,6 +29,7 @@ def index():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
+        session.clear()
         # Base login Page
         # returns login html
         # TODO: Change to login.html or something not clapped
@@ -37,13 +38,14 @@ def login():
         username = request.form.get("username")
         password = request.form.get("password")
         result = LoginUser(username, password)
+        print(session.get('userId'))
         if result: return redirect(url_for('dash'))
         else: render_template("login.html", error=True)
 
 # Basic log out system
 # Use a form / button that posts to here then done easy peasy
 # TODO: Add logout button on dash page
-@app.route("/logout", methods=["POST"])
+@app.route("/logout", methods=["POST", "GET"])
 def logout():
     if session.get["logged_in"]:
         Logout()
@@ -54,6 +56,6 @@ def logout():
 
 @app.route("/dashboard", methods=["GET"])
 def dash():
-    return session.get("userid")
+    return str(session.get('userId'))
 
 app.run(debug=True)

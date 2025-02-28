@@ -84,8 +84,13 @@ def getUserId(user, Database):
     mycursor = Database.cursor()
     mycursor.execute(query, (user,))
     result = mycursor.fetchone()[0]
+    print(result)
     return result
 
 
 def Logout():
-    session.get["use"]
+    userid = session.get("userId")
+    query = "UPDATE userdata SET sessionid null WHERE userid = %s"
+    Database = settings.Database
+    cursor = Database.cursor()
+    cursor.execute(query, (userid,))
