@@ -83,6 +83,8 @@ def dash():
     # Okay i dont really know where to go from here tbh at this point we gonna try work out how to make the dashboard but i hate html so i would rather go do smth else
     return str(session.get('userId'))
 
+
+# NOTE: Remove this sooner or later. Clapped code only for testing. I am NOT waiting 12 hours for ts!
 @app.route("/clearJobsTest")
 def test():
     printjobmanager.clearJobs()
