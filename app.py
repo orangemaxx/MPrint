@@ -31,9 +31,6 @@ Database = settings.Database = connectDB()
 # 28/02/2025
 # - Max
 
-
-
-
 app = Flask(__name__)
 app.secret_key = getenv("SESSION_SECRET")
 
@@ -85,6 +82,9 @@ def dash():
     # Okay i dont really know where to go from here tbh at this point we gonna try work out how to make the dashboard but i hate html so i would rather go do smth else
     return str(session.get('userId'))
 
+@app.route("/admin")
+def admin():
+    return "TOP SECRET ADMIN PAGE"
 
 # NOTE: Remove this sooner or later. Clapped code only for testing. I am NOT waiting 12 hours for ts!
 @app.route("/clearJobsTest")
