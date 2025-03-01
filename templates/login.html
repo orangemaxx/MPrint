@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MPrint</title>
+    <link rel="stylesheet" href="/static/css/fonts.css">
     <style>
         body {
             /* TODO: fix the backround its clapped rn */
@@ -24,6 +25,7 @@
             background-color: rgb(0,0,0); /* Fallback color */
             background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
             text-align: center;
+            font-family: 'Outfit', sans-serif;
         }
         .container {
             background-color: #fefefe;
@@ -33,17 +35,35 @@
             width: 25%; /* Could be more or less, depending on screen size */
             border-radius: 12px;
         }
+        form {
+            text-align: center;
+        }
+        .formItem {
+            display: flex;
+            flex-direction: column;
+            width: 60%;
+            justify-content: center;
+            align-items: center;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <!-- Login -->
         <h1>MPrintWeb</h1>
+        <p>Dear user. I know this login looks clapped as hell i am working to fix that</p>
         <form action="/login" method="post">
-            <label for="username">Username:</label>
-            <input type="text" name="username" id="username" required>
-            <label for="password">Password:</label>
-            <input type="password" name="password" id="password" required autocomplete="off">
+            <div class="formItem">
+                <label for="username">Username:</label>
+                <input type="text" name="username" id="username" required>
+            </div>
+            <div class="formItem">
+                <label for="password">Password:</label>
+                <input type="password" name="password" id="password" required autocomplete="off">
+            </div>
+            {% if error %}
+            <p style="color: red;">Incorrect Username or Password</p>
+            {% endif %}
             <input type="submit" value="Login">
         </form>
     </div>

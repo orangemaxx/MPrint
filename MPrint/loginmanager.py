@@ -13,30 +13,32 @@ loginIdLen = 30
 
 
 def LoginUser(user, passw):
-    Database = settings.Database
-    query = "SELECT password FROM userdata WHERE username = %s"
-    
-    # Use parameterized queries to avoid SQL injection risks
-    cursor = Database.cursor()
-    cursor.execute(query, (user,))
-    result = cursor.fetchone()[0] # Fetch the result
-    if passw == result:
-        # Generate LoginId
-        loginid = LoginIdGen(Database)
-        # Set the update query for later use
-        # Special thanks to 
-        query = "UPDATE userdata SET sessionid = %s WHERE username = %s"
-        # Fill in the values
-        values = (loginid, user)
-        # Execute the command
-        cursor.execute(query, values)
-        # Commit to DB
-        Database.commit()
-        session["loginId"] = loginid
-        session["userId"] = getUserId(user, Database)
-        session["logged_in"] = True
-        return True
-    else: return False
+    try:
+        Database = settings.Database
+        query = "SELECT password FROM userdata WHERE username = %s"
+        
+        # Use parameterized queries to avoid SQL injection risks
+        cursor = Database.cursor()
+        cursor.execute(query, (user,))
+        result = cursor.fetchone()[0] # Fetch the result
+        if passw == result:
+            # Generate LoginId
+            loginid = LoginIdGen(Database)
+            # Set the update query for later use
+            # Special thanks to 
+            query = "UPDATE userdata SET sessionid = %s WHERE username = %s"
+            # Fill in the values
+            values = (loginid, user)
+            # Execute the command
+            cursor.execute(query, values)
+            # Commit to DB
+            Database.commit()
+            session["loginId"] = loginid
+            session["userId"] = getUserId(user, Database)
+            session["logged_in"] = True
+            return True
+        else: return False
+    except: return False
 
 def LoginIdGen(Database):
     # Loop to get login id

@@ -57,9 +57,10 @@ def login():
         username = request.form.get("username")
         password = request.form.get("password")
         result = LoginUser(username, password)
-        print(session.get('userId'))
-        if result: return redirect(url_for('dash'))
-        else: render_template("login.html", error=True)
+        if result: 
+            return redirect(url_for('dash'))
+        else: 
+            return render_template("login.html", error=True)
 
 # Basic log out system
 # Use a form / button that posts to here then done easy peasy
