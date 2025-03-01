@@ -1,7 +1,7 @@
 """ MPrint - Written by Max Hewin
 Follow me on letterboxd! https://letterboxd.com/orangemax
 """
-
+# TODO: 30 metaphorical bucks to whoever can do the html for this project. I hate doing that.
 
 
 from flask import Flask, render_template, request, redirect, session, url_for
@@ -30,6 +30,8 @@ Database = settings.Database = connectDB()
 
 # 28/02/2025
 # - Max
+
+
 
 
 app = Flask(__name__)
