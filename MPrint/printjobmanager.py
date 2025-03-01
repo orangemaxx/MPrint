@@ -42,7 +42,6 @@ def createPrintJob(filename, color, pages, copies):
     query = "INSERT INTO printjobs (jobid, userid, jobfilename, jobscolour, pages, copies, jobexpirytime) VALUES (%s, %s, %s, %s, %s, %s, %s)"
     # Set the variables
     val = (jobId, userid, filename, color, pages, copies, expiry)
-    print("yeah") # TODO: This is to check it got this far. Get rid of this later
     mycursor.execute(query, val) # Execute command in mysql database
     Database.commit() # commit to database
     return True # return true if succesful
@@ -80,7 +79,7 @@ def clearJobs():
     time = int(datetime.now().timestamp()) # get the current time
 
     cursor = Database.cursor() # Set cursor
-    query = "SELECT jobid FROM printjobs WHERE jobexpirytime >= %s"
+    query = "SELECT jobid FROM printjobs WHERE jobexpirytime <= %s"
     values = (time,) # read the code
     cursor.execute(query, values) # read the code
     result = cursor.fetchall()
@@ -90,6 +89,7 @@ def clearJobs():
         values = (x,) # set the values as the dang for x loop thing
         idcursor.executemany(query, values) # you know how it is
     Database.commit() # commit things to the database. might move this up cuz if one thing goes wrong atp we cooked but idk
+    print("Successfully Cleared Expired Jobs")
 
 def getJobs():
     userid = session.get("userId")
