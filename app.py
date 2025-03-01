@@ -79,7 +79,7 @@ def dash():
     if not checkLogin(Database):
         return redirect(url_for('login'))
     # FIXME: okay so in an ideal world this should return true because ofc its gone thru to the database. but it aint and idk why. if anyone can fix this i would be very greatful
-    print(printjobmanager.createPrintJob("yadayada", False, 1, 1))
+    jobs = printjobmanager.getJobs()
     # Okay i dont really know where to go from here tbh at this point we gonna try work out how to make the dashboard but i hate html so i would rather go do smth else
     return str(session.get('userId'))
 
@@ -88,10 +88,15 @@ def admin():
     return "TOP SECRET ADMIN PAGE"
 
 # NOTE: Remove this sooner or later. Clapped code only for testing. I am NOT waiting 12 hours for ts!
-@app.route("/clearJobsTest")
+@app.route("/clearjobstest")
 def test():
     printjobmanager.clearJobs()
     return "idk good luck check the db"
+
+@app.route("/createsamplejob")
+def sample():
+    printjobmanager.createPrintJob("Sample Job", False, 1, 1)
+    return "Job Created"
 
 if __name__ == "__main__":
     app.run(debug=True)

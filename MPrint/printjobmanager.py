@@ -90,3 +90,14 @@ def clearJobs():
         values = (x,) # set the values as the dang for x loop thing
         idcursor.executemany(query, values) # you know how it is
     Database.commit() # commit things to the database. might move this up cuz if one thing goes wrong atp we cooked but idk
+
+def getJobs():
+    userid = session.get("userId")
+    print(userid)
+    Database = settings.Database
+    cursor = Database.cursor()
+    query = "SELECT * FROM printjobs WHERE userid = %s"
+    values = (userid,)
+    cursor.execute(query, values)
+    jobs = cursor.fetchall()
+    
