@@ -87,7 +87,7 @@ def Logout():
 
 
 def checkLogin(Database):
-    # try:
+    try:
         userid = session.get("userId")
         loginid = session.get("loginId")
         query = "SELECT sessionid FROM userdata WHERE userid = %s"
@@ -97,6 +97,6 @@ def checkLogin(Database):
         if result == loginid:
             return True
         else: return False
-    # except:
-    #     print("Couldn't Get Session")
-    #     return False
+    except:
+        print("Couldn't Get Session")
+        return False

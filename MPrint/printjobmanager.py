@@ -4,6 +4,7 @@ from MPrint.loginmanager import checkLogin
 from string import ascii_letters
 from flask import session
 from random import choice
+from datetime import datetime, timedelta
 
 import MPrint.sqldb as sqldb
 import mysql.connector
@@ -25,12 +26,14 @@ def createPrintJob(filename, color, pages, copies):
     jobId = createJobId(Database)
     # Get the userid
     userid = session.get("userId")
+    # Get the job expiry time
+    expiry = getJobExpiry()
     # Set the cursor for query
     mycursor = Database.cursor() # <- this is where the error keeps appearing. Please note there is error prevention in place. If we can't connect to the database the app will not run.
     # Set the query for mysql
-    query = "INSERT INTO printjobs (jobid, userid, jobfilename, jobscolour, pages, copies) VALUES (%s, %s, %s, %s, %s, %s)"
+    query = "INSERT INTO printjobs (jobid, userid, jobfilename, jobscolour, pages, copies, jobexpirytime) VALUES (%s, %s, %s, %s, %s, %s, %s)"
     # Set the variables
-    val = (jobId, userid, filename, color, pages, copies)
+    val = (jobId, userid, filename, color, pages, copies, expiry)
     print("yeah") # TODO: This is to check it got this far. Get rid of this later
     mycursor.execute(query, val) # Execute command in mysql database
     Database.commit() # commit to database
@@ -58,3 +61,22 @@ def createJobId(Database):
         if not exists: break
     return jobId
 
+def getJobExpiry():
+    time = datetime.now()
+    expiry = time + timedelta(hours=12)
+    return int(expiry.timestamp())
+
+def clearJobs():
+    Database = settings.Database
+    time = int(datetime.now().timestamp())
+
+    cursor = Database.cursor()
+    query = "SELECT jobid FROM printjobs WHERE jobexpirytime >= %s"
+    values = (time,)
+    cursor.execute(query, values)
+    result = cursor.fetchall()
+    for x in result:
+        idcursor = Database.cursor()
+        query = "DELETE FROM printjobs WHERE jobid = %s"
+        idcursor.executemany(query, (x,))
+    Database.commit()
