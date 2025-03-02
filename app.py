@@ -119,4 +119,4 @@ def sample():
     return "Job Created"
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=getenv("SITE_DEBUG"), port=getenv("SITE_PORT"), host=getenv("SITE_HOST"))
